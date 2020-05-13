@@ -1,0 +1,15 @@
+{
+    "name": "SteamVR",
+    "references": [
+        "SteamVR_Windows_EditorHelper",
+        "GamePieces"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
