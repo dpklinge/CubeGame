@@ -63,9 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CubeGameContent\GamePieces\AnnulmentCube.cs" />
     <Compile Include="Assets\CubeGameContent\GamePieces\CubeType.cs" />
+    <Compile Include="Assets\CubeGameContent\GamePieces\DisableSphere.cs" />
     <Compile Include="Assets\CubeGameContent\GamePieces\FloatCube.cs" />
     <Compile Include="Assets\CubeGameContent\GamePieces\GenericCube.cs" />
+    <Compile Include="Assets\CubeGameContent\GamePieces\SlideCube.cs" />
     <Compile Include="Assets\CubeGameContent\GamePieces\StaticCube.cs" />
     <None Include="Assets\CubeGameContent\GamePieces\GamePieces.asmdef" />
     <Reference Include="UnityEditor.UI">

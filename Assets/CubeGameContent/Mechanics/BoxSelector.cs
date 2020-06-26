@@ -18,7 +18,7 @@ public class BoxSelector : MonoBehaviour
     private Boolean scrollReady = true;
     private Boolean isScrollingLeft = false;
     private Boolean isScrollingRight = false;
-    private BoxInventory inventory;
+    public BoxInventory inventory;
     private enum Direction
     {
         LEFT, RIGHT
@@ -26,7 +26,6 @@ public class BoxSelector : MonoBehaviour
 
     void Start()
     {
-        inventory = GameObject.Find("Player").GetComponent<BoxInventory>();
         LeftScroll.AddOnStateDownListener(ScrollLeft, LeftHand);
         LeftScroll.AddOnStateUpListener(ScrollLeft, LeftHand);
         RightScroll.AddOnStateDownListener(ScrollRight, LeftHand);

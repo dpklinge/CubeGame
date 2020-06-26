@@ -15,6 +15,7 @@ public class BoxCreationScript : MonoBehaviour
     public SteamVR_Input_Sources leftHand;
     public SteamVR_Input_Sources rightHand;
     public float DistanceFromHands = 0.1f;
+    public BoxInventory inventory;
     private bool leftDown;
     private bool rightDown;
   
@@ -52,16 +53,23 @@ public class BoxCreationScript : MonoBehaviour
         if(!leftDown && !rightDown && currentBox != null)
         {
             Debug.Log("Both triggers released");
-            currentBox.transform.SetParent(null);
-            Rigidbody body = currentBox.GetComponent<Rigidbody>();
-            Vector3 velocity = (currentBox.transform.position - lastCurrentBoxPosition) / Time.deltaTime;
-            Quaternion rotationDelta = Quaternion.Inverse(lastCurrentBoxRotation)* currentBox.transform.rotation;
-  
-            Vector3 angularVelocity = rotationDelta.eulerAngles / Time.deltaTime;
- 
-            currentBox.GetComponent<CubeType>().BeginBehaviour(velocity, angularVelocity);
-            currentBox = null;
+            ReleaseBox();
+            
         }
+    }
+    private void ReleaseBox()
+    {
+        Debug.Log("Releasing box " + currentBox);
+        currentBox.transform.SetParent(null);
+        
+        Vector3 velocity = (currentBox.transform.position - lastCurrentBoxPosition) / Time.deltaTime;
+        Quaternion rotationDelta = Quaternion.Inverse(lastCurrentBoxRotation) * currentBox.transform.rotation;
+
+        Vector3 angularVelocity = rotationDelta.eulerAngles / Time.deltaTime;
+
+        Debug.Log("Beginning box behaviour");
+        currentBox.GetComponent<CubeType>().BeginBehaviour(velocity, angularVelocity);
+        currentBox = null;
     }
 
     private void TriggerDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
@@ -95,7 +103,9 @@ public class BoxCreationScript : MonoBehaviour
 
     private void CreateBox()
     {
-        CubeType type = GameObject.Find("Player").GetComponent<BoxInventory>().GetCurrentCube();
+        Debug.Log("Beginning create box");
+        CubeType type = inventory.GetCurrentCube();
+        Debug.Log("Creating box of type: " + type);
         if (type == null)
         {
             return;

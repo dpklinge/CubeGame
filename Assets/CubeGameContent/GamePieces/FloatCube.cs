@@ -11,7 +11,8 @@ namespace CubeTypes
     public class FloatCube : CubeType
     {
         private Vector3 velocity;
-        public List<GameObject> attachedObjects = new List<GameObject>();
+        private Vector3 lastVelocity=Vector3.zero;
+        
 
         public override void BeginBehaviour(Vector3 velocity, Vector3 angularVelocity)
         {
@@ -26,6 +27,10 @@ namespace CubeTypes
             Debug.Log("Beginning behaviour float box; Setting kinematic to false");
             Rigidbody rigidbody = this.gameObject.GetComponent<Rigidbody>();
             rigidbody.isKinematic = true;
+            if (lastVelocity != Vector3.zero)
+            {
+                this.velocity = lastVelocity;
+            }
             //rigidbody.useGravity = false;
             //rigidbody.velocity = velocity;
             //rigidbody.drag = 0;
@@ -41,6 +46,7 @@ namespace CubeTypes
         {
             Debug.Log("Disabling beahaviour generic box; Setting kinematic to true");
             this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            lastVelocity = velocity;
             velocity = Vector3.zero;
         }
         public void Update()
@@ -48,10 +54,10 @@ namespace CubeTypes
             transform.Translate(velocity * Time.deltaTime, Space.World);
 
         }
-        public void ApplyCollision(GameObject obj)
+        public override void ApplyCollision(GameObject obj)
         {
             Rigidbody rb = obj.GetComponentInChildren<Rigidbody>();
-            if (rb!=null && !rb.isKinematic)
+            if (rb != null && !rb.isKinematic)
             {
                 if (!attachedObjects.Contains(obj))
                 {
@@ -66,44 +72,8 @@ namespace CubeTypes
                 Debug.Log("Collided with: " + obj.name);
             }
         }
-        public void OnTriggerEnter(Collider other)
-        {
-            Debug.Log("Object entered floatcube trigger: "+other.name);
-            // if (other.transform.parent != null) { }
-            //Debug.Log("Velocity at collision time of floatcube: "+ velocity);
-            Transform parent = other.transform.parent;
-            if (parent == null)
-            {
-                ApplyCollision(other.gameObject);
-            }
-            else
-            {
-                ApplyCollision(parent.gameObject);
-            }
-            
-
-        }
-        public void OnTriggerExit(Collider other)
-        {
-            Transform parent = other.transform.parent;
-            if (parent == null)
-            {
-                Detach(other.gameObject);
-            }
-            else
-            {
-                Detach(parent.gameObject);
-            }
-        }
-        public void Detach(GameObject obj)
-        {
-            if (attachedObjects.Contains(obj))
-            {
-                Debug.Log("Dettaching " + obj.name + " from moving platform");
-                obj.transform.parent = null;
-                attachedObjects.Remove(obj);
-            }
-        }
+        
+       
 
  
     }

@@ -312,42 +312,42 @@ namespace Valve.VR.InteractionSystem
 
         public void SetSkeletonRangeOfMotion(EVRSkeletalMotionRange newRangeOfMotion, float blendOverSeconds = 0.1f)
         {
-            for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
-            {
-                renderModels[renderModelIndex].SetSkeletonRangeOfMotion(newRangeOfMotion, blendOverSeconds);
-            }
+            //for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
+            //{
+            //    renderModels[renderModelIndex].SetSkeletonRangeOfMotion(newRangeOfMotion, blendOverSeconds);
+            //}
         }
 
         public void SetTemporarySkeletonRangeOfMotion(SkeletalMotionRangeChange temporaryRangeOfMotionChange, float blendOverSeconds = 0.1f)
         {
-            for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
-            {
-                renderModels[renderModelIndex].SetTemporarySkeletonRangeOfMotion(temporaryRangeOfMotionChange, blendOverSeconds);
-            }
+            //for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
+            //{
+            //    renderModels[renderModelIndex].SetTemporarySkeletonRangeOfMotion(temporaryRangeOfMotionChange, blendOverSeconds);
+            //}
         }
 
         public void ResetTemporarySkeletonRangeOfMotion(float blendOverSeconds = 0.1f)
         {
-            for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
-            {
-                renderModels[renderModelIndex].ResetTemporarySkeletonRangeOfMotion(blendOverSeconds);
-            }
+            //for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
+            //{
+            //    renderModels[renderModelIndex].ResetTemporarySkeletonRangeOfMotion(blendOverSeconds);
+            //}
         }
 
         public void SetAnimationState(int stateValue)
         {
-            for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
-            {
-                renderModels[renderModelIndex].SetAnimationState(stateValue);
-            }
+            //for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
+            //{
+            //    renderModels[renderModelIndex].SetAnimationState(stateValue);
+            //}
         }
 
         public void StopAnimation()
         {
-            for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
-            {
-                renderModels[renderModelIndex].StopAnimation();
-            }
+            //for (int renderModelIndex = 0; renderModelIndex < renderModels.Count; renderModelIndex++)
+            //{
+            //    renderModels[renderModelIndex].StopAnimation();
+            //}
         }
 
 

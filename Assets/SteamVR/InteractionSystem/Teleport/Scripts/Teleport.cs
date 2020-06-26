@@ -879,7 +879,7 @@ namespace Valve.VR.InteractionSystem
 
 			// Find the actual floor position below the navigation mesh
 			TeleportArea teleportArea = teleportingToMarker as TeleportArea;
-			FloatCube cube = null;
+			CubeType cube = null;
 			if ( teleportArea != null )
 			{
 				Debug.Log("Was a teleport area");
@@ -891,9 +891,12 @@ namespace Valve.VR.InteractionSystem
 						
 						teleportPosition = raycastHit.point;
 					}
+					
+					
 					GameObject target = teleportArea.gameObject.transform.parent.gameObject;
+			
 					Debug.Log("teleporting to teleport area: " + target.name);
-					cube = target.GetComponent<FloatCube>();
+					cube = target.GetComponent<CubeType>();
 					Debug.Log("Did it have a float cube? " + cube);
 					foreach(Component obj in target.GetComponents(typeof(Component)))
 					{
@@ -911,9 +914,9 @@ namespace Valve.VR.InteractionSystem
 				player.trackingOriginTransform.position = teleportPosition + playerFeetOffset;
 				if (platform != null)
 				{
-					if (platform.GetComponent<FloatCube>() != null)
+					if (platform.GetComponent<CubeType>() != null)
 					{
-						platform.GetComponent<FloatCube>().Detach(GameObject.Find("Player"));
+						platform.GetComponent<CubeType>().Detach(GameObject.Find("Player"));
 					}
 					platform = null;
 				}

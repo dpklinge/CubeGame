@@ -10,7 +10,7 @@ public class BoxRetrievalScript : MonoBehaviour
 {
     public SteamVR_Action_Boolean BoxRemove;
     public SteamVR_Input_Sources handSource;
-    public int DelayUntilRetrieval = 2;
+    public float DelayUntilRetrieval = 2;
     public float MaximumDistance = 100f;
     public float Thickness = 1f;
     public Color PassiveColor = Color.red;
@@ -21,6 +21,7 @@ public class BoxRetrievalScript : MonoBehaviour
     private GameObject laser = null;
     public GameObject hand;
     public float ShakeDistance = 0.001f;
+    public BoxInventory inventory;
     private GameObject lastTarget;
     private float timeIncrement=0;
     public float ShakeTime = 25;
@@ -105,11 +106,13 @@ public class BoxRetrievalScript : MonoBehaviour
             timeIncrement += Time.deltaTime;
             if (timeIncrement >= DelayUntilRetrieval)
             {
-                GameObject.Find("Player").GetComponent<BoxInventory>().AddCube(target.GetComponentInParent<CubeType>());
+                inventory.AddCube(target.GetComponentInParent<CubeType>());
                 if (target.transform.parent != null)
                 {
                     target = target.transform.parent.gameObject;
                 }
+                Debug.Log("Destroying target: " + target);
+                target.GetComponent<CubeType>().DisableBehaviour();
                 Destroy(target);
                 timeIncrement = 0f;
                 lastTarget = null;
