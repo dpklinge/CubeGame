@@ -46,3 +46,5 @@ MonoBehaviour:
   CubeColor: {r: 0, g: 0, b: 0, a: 0}
   attachedObjects: []
   radiusMultiplier: 5
+  disableSphere: {fileID: 4984346255670019759, guid: 2409e5700f3f721428bdf4d003e68507,
+    type: 3}

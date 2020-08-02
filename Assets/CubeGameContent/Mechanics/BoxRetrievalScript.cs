@@ -48,7 +48,7 @@ public class BoxRetrievalScript : MonoBehaviour
                 Debug.Log("Raycast hit " + target);
                 CubeType type = target.GetComponentInParent<CubeType>();
                     targetIsCube = type != null;
-                RenderLaser(target, raycastHit.point);
+                RenderLaser(target, raycastHit);
             }
             else
             {
@@ -57,7 +57,7 @@ public class BoxRetrievalScript : MonoBehaviour
         }
     }
 
-    private void RenderLaser(GameObject target, Vector3 collisionPoint)
+    private void RenderLaser(GameObject target, RaycastHit collisionPoint)
     {
         Debug.Log("Rendering laser");
         Color color;
@@ -77,8 +77,8 @@ public class BoxRetrievalScript : MonoBehaviour
             //Debug.Log("Created laser");
             laser = GameObject.CreatePrimitive(PrimitiveType.Cube);
             laser.transform.parent = hand.transform;
-            laser.transform.localScale = new Vector3(Thickness, Thickness, Vector3.Distance(collisionPoint, hand.transform.position));
-            laser.transform.localPosition = new Vector3(0f, 0f, Vector3.Distance(collisionPoint, hand.transform.position)/2);
+            laser.transform.localScale = new Vector3(Thickness, Thickness, collisionPoint.distance);
+            laser.transform.localPosition = new Vector3(0f, 0f, collisionPoint.distance/2);
             laser.transform.localRotation = Quaternion.identity;
             Material newMaterial = new Material(Shader.Find("Unlit/Color"));
             Destroy(laser.GetComponent<BoxCollider>());

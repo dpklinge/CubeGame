@@ -6,6 +6,8 @@ using UnityEngine;
 public class AnnulmentCube : CubeType
 {
     public float radiusMultiplier = 5;
+    public GameObject disableSphere;
+    private GameObject disableSphereInstance;
     public override void BeginBehaviour(Vector3 velocity, Vector3 angularVelocity)
     {
         Debug.Log("Beginning behaviour annulment cube; Setting kinematic to false");
@@ -14,11 +16,11 @@ public class AnnulmentCube : CubeType
         rigidbody.velocity = velocity;
         rigidbody.angularVelocity = angularVelocity;
         Debug.Log("Beginning annullment cube- creating DisableSphere");
-        DisableSphere disabler = gameObject.AddComponent<DisableSphere>();
-        disabler.Start();
-        Debug.Log("Disable sphere started, changing size");
+        disableSphereInstance = Instantiate(disableSphere, Vector3.zero, Quaternion.identity);
+        disableSphereInstance.transform.localScale = disableSphereInstance.transform.localScale * radiusMultiplier;
+        disableSphereInstance.transform.parent = this.transform;
+
         float radius = radiusMultiplier * gameObject.transform.localScale.magnitude;
-        disabler.GetComponent<SphereCollider>().radius = radius;
         Debug.Log("Getting colliders in vicinity");
         Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, radius);
         Debug.Log("Looping through colliders");
@@ -49,7 +51,7 @@ public class AnnulmentCube : CubeType
                 cube.TurnOn();
             }
         }
-        GameObject.Destroy(gameObject.GetComponent<DisableSphere>());
+        GameObject.Destroy(disableSphereInstance);
     }
 
 

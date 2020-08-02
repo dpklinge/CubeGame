@@ -16,6 +16,7 @@ public class BoxCreationScript : MonoBehaviour
     public SteamVR_Input_Sources rightHand;
     public float DistanceFromHands = 0.1f;
     public BoxInventory inventory;
+    public LayerMask layersToAccessWhileGrabbing;
     private bool leftDown;
     private bool rightDown;
   
@@ -131,7 +132,7 @@ public class BoxCreationScript : MonoBehaviour
     {
         
 
-        Collider[] hitColliders = Physics.OverlapSphere(hand.transform.position, maxGrabDistance);
+        Collider[] hitColliders = Physics.OverlapSphere(hand.transform.position, maxGrabDistance, layersToAccessWhileGrabbing);
         GameObject nearestBox = null;
         float nearestDistance = 100;
         foreach(Collider collider in hitColliders)

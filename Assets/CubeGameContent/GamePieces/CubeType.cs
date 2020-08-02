@@ -33,6 +33,7 @@ namespace CubeTypes
 
         public virtual void ApplyCollision(GameObject obj)
         {
+            Debug.Log("Applying collision between " + this + " and " + obj);
             Rigidbody rb = obj.GetComponentInChildren<Rigidbody>();
             if (rb != null && !rb.isKinematic)
             {
@@ -49,35 +50,23 @@ namespace CubeTypes
         public void OnTriggerEnter(Collider other)
         {
             Debug.Log("Object entered cube trigger: " + other.name);
-            if(other is SphereCollider)
+            if(other.gameObject.layer == 9)
             {
+                Debug.Log("Colliding with teleportIgnore surface - aborting contact");
                 return;
             }
             // if (other.transform.parent != null) { }
             //Debug.Log("Velocity at collision time of floatcube: "+ velocity);
-            Transform parent = other.transform.parent;
-            if (parent == null)
-            {
-                ApplyCollision(other.gameObject);
-            }
-            else
-            {
-                ApplyCollision(parent.gameObject);
-            }
+            
+           ApplyCollision(other.gameObject);
 
 
         }
         public void OnTriggerExit(Collider other)
         {
-            Transform parent = other.transform.parent;
-            if (parent == null)
-            {
+            
                 Detach(other.gameObject);
-            }
-            else
-            {
-                Detach(parent.gameObject);
-            }
+     
         }
         public void Detach(GameObject obj)
         {
