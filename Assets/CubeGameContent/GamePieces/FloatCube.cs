@@ -11,14 +11,17 @@ namespace CubeTypes
     public class FloatCube : CubeType
     {
         private Vector3 velocity;
-        private Vector3 lastVelocity=Vector3.zero;
-        
+        private Vector3 lastVelocity = Vector3.zero;
+
 
         public override void BeginBehaviour(Vector3 velocity, Vector3 angularVelocity)
         {
             MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
-            Material material = renderer.material;
-            Debug.Log(material.name + " has color at beginbehaviour " + material.color);
+            if (renderer != null)
+            {
+                Material material = renderer.material;
+                Debug.Log(material.name + " has color at beginbehaviour " + material.color);
+            }
             if (velocity.magnitude > 5)
             {
                 velocity = velocity.normalized * 2.5f;
@@ -26,7 +29,10 @@ namespace CubeTypes
             this.velocity = velocity;
             Debug.Log("Beginning behaviour float box; Setting kinematic to false");
             Rigidbody rigidbody = this.gameObject.GetComponent<Rigidbody>();
-            rigidbody.isKinematic = true;
+            if (rigidbody != null)
+            {
+                rigidbody.isKinematic = true;
+            }
             if (lastVelocity != Vector3.zero)
             {
                 this.velocity = lastVelocity;
@@ -35,23 +41,32 @@ namespace CubeTypes
             //rigidbody.velocity = velocity;
             //rigidbody.drag = 0;
             //rigidbody.freezeRotation = true;
-            
+            lastVelocity = Vector3.zero;
 
-
+            base.BeginBehaviour(velocity, angularVelocity);
         }
-       
 
 
-        public override void DisableBehaviour()
+
+        public override void DisableBehaviour(String disableType)
         {
             Debug.Log("Disabling beahaviour generic box; Setting kinematic to true");
             this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            lastVelocity = velocity;
+            if (disableType.Equals("turnOff"))
+            {
+                lastVelocity = velocity;
+            }
+            else
+            {
+                lastVelocity = Vector3.zero;
+            }
             velocity = Vector3.zero;
+            base.DisableBehaviour(disableType);
         }
         public void Update()
         {
             transform.Translate(velocity * Time.deltaTime, Space.World);
+            base.Update();
 
         }
         public override void ApplyCollision(GameObject obj)
@@ -72,14 +87,14 @@ namespace CubeTypes
                 Debug.Log("Collided with: " + obj.name);
             }
         }
-        
-       
 
- 
+
+
+
     }
-   
-    
 
-    
-    
+
+
+
+
 }

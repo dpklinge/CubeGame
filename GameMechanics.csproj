@@ -67,6 +67,7 @@
     <Compile Include="Assets\CubeGameContent\Mechanics\BoxInventory.cs" />
     <Compile Include="Assets\CubeGameContent\Mechanics\BoxRetrievalScript.cs" />
     <Compile Include="Assets\CubeGameContent\Mechanics\BoxSelector.cs" />
+    <Compile Include="Assets\CubeGameContent\Mechanics\StartupFlagger.cs" />
     <None Include="Assets\CubeGameContent\Mechanics\GameMechanics.asmdef" />
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/dpkli/VR Bare Bones/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>

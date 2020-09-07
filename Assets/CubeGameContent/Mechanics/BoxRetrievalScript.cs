@@ -45,21 +45,21 @@ public class BoxRetrievalScript : MonoBehaviour
             if (Physics.Raycast(hand.transform.position, hand.transform.forward, out raycastHit, MaximumDistance, TraceLayerMask))
             {
                 GameObject target = raycastHit.collider.gameObject;
-                Debug.Log("Raycast hit " + target);
+               // Debug.Log("Raycast hit " + target);
                 CubeType type = target.GetComponentInParent<CubeType>();
                     targetIsCube = type != null;
                 RenderLaser(target, raycastHit);
             }
-            else
+          /*  else
             {
                 Debug.Log("Raycast hit nothing");
-            }
+            }*/
         }
     }
 
     private void RenderLaser(GameObject target, RaycastHit collisionPoint)
     {
-        Debug.Log("Rendering laser");
+        //Debug.Log("Rendering laser");
         Color color;
         if (targetIsCube)
         {
@@ -106,13 +106,22 @@ public class BoxRetrievalScript : MonoBehaviour
             timeIncrement += Time.deltaTime;
             if (timeIncrement >= DelayUntilRetrieval)
             {
-                inventory.AddCube(target.GetComponentInParent<CubeType>());
+                CubeType type = target.GetComponentInParent<CubeType>();
+                inventory.AddCube(type);
+                if (type.attachedObjects != null)
+                {
+                    List<GameObject> copy = new List<GameObject>(type.attachedObjects);
+                    foreach(GameObject obj in copy){
+                        type.Detach(obj);
+                    }
+                }
                 if (target.transform.parent != null)
                 {
                     target = target.transform.parent.gameObject;
                 }
+                
                 Debug.Log("Destroying target: " + target);
-                target.GetComponent<CubeType>().DisableBehaviour();
+                target.GetComponent<CubeType>().DisableBehaviour("initial");
                 Destroy(target);
                 timeIncrement = 0f;
                 lastTarget = null;

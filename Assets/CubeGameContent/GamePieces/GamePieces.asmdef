@@ -1,3 +1,14 @@
-﻿{
-	"name": "GamePieces"
+{
+    "name": "GamePieces",
+    "references": [
+        "GUID:f99d809c983b6c14b971d33444a4a550"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
 }

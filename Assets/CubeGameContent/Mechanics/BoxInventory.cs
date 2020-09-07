@@ -58,7 +58,7 @@ namespace Assets.VR_Controller_scripts
         public CubeType GetCurrentCubeType()
         {
             SetCubeDisplayColors(CubeTypes[index]);
-            Debug.Log("Selector returning: " + CubeTypes[index]);
+           // Debug.Log("Selector returning: " + CubeTypes[index]);
             return CubeTypes[index];
         }
         public CubeType GetCurrentCube()
@@ -84,21 +84,21 @@ namespace Assets.VR_Controller_scripts
         {
             foreach(GameObject orbiter in primaryOrbiters)
             {
-                Debug.Log("Destroying:" + orbiter);
+              //  Debug.Log("Destroying:" + orbiter);
                 GameObject.Destroy(orbiter);
             }
             foreach (GameObject orbiter in secondaryOrbiters)
             {
-                Debug.Log("Destroying:" + orbiter);
+                //Debug.Log("Destroying:" + orbiter);
                 GameObject.Destroy(orbiter);
             }
             primaryOrbiters = new List<GameObject>();
             secondaryOrbiters = new List<GameObject>();
             for (int i=0; i<Quantities[index]; i++)
             {
-                Debug.Log("Adding cube to primary");
+              //  Debug.Log("Adding cube to primary");
                 AddCubeTypeToDisplay(CubeTypes[index], SphereDisplayer, primaryOrbiters);
-                Debug.Log("Adding cube to secondary");
+               // Debug.Log("Adding cube to secondary");
                 AddCubeTypeToDisplay(CubeTypes[index], SecondarySphereDisplayer, secondaryOrbiters);
             }
         }
@@ -118,9 +118,9 @@ namespace Assets.VR_Controller_scripts
             float dy = Random.Range(-OrbitMax, OrbitMax);
             float dz = Random.Range(-OrbitMax, OrbitMax);
             Vector3 position = new Vector3(display.transform.position.x+dx, display.transform.position.y + dy, display.transform.position.z + dz);
-            Debug.Log("position of display : " + display.transform.position);
-            Debug.Log("Should shift by: " + dx + " " + dy + dz);
-            Debug.Log("position of new minicube : " + position);
+            //Debug.Log("position of display : " + display.transform.position);
+            //Debug.Log("Should shift by: " + dx + " " + dy + dz);
+            //Debug.Log("position of new minicube : " + position);
 
             instance.transform.position = position;
             instance.GetComponent<Rigidbody>().isKinematic = false;
@@ -152,7 +152,7 @@ namespace Assets.VR_Controller_scripts
             {
                 index = CubeTypes.Length - 1;
             }
-            Debug.Log("Index: " + index);
+            //Debug.Log("Index: " + index);
             PopulateCubeDisplays();
             return GetCurrentCubeType();
         }
@@ -163,7 +163,7 @@ namespace Assets.VR_Controller_scripts
             {
                 index = 0 ;
             }
-            Debug.Log("Index: " + index);
+            //Debug.Log("Index: " + index);
             PopulateCubeDisplays();
             return GetCurrentCubeType();
         }

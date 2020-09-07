@@ -6,7 +6,8 @@ internal class DisableSphere:MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        CubeType cube = other.GetComponent<CubeType>();
+        Debug.Log(other.name + " entered disableShere trigger");
+        CubeType cube = other.GetComponentInChildren<CubeType>();
         if(cube != null)
         {
             cube.TurnOff();
@@ -14,7 +15,8 @@ internal class DisableSphere:MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        CubeType cube = other.GetComponent<CubeType>();
+        Debug.Log(other.name+ " exited disableShere trigger");
+        CubeType cube = other.GetComponentInChildren<CubeType>();
         if (cube != null)
         {
             cube.TurnOn();

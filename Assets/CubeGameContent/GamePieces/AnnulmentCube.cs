@@ -5,39 +5,45 @@ using UnityEngine;
 
 public class AnnulmentCube : CubeType
 {
-    public float radiusMultiplier = 5;
-    public GameObject disableSphere;
+    
+    public float radiusMultiplier = 7.5f;
+
     private GameObject disableSphereInstance;
     public override void BeginBehaviour(Vector3 velocity, Vector3 angularVelocity)
     {
         Debug.Log("Beginning behaviour annulment cube; Setting kinematic to false");
         Rigidbody rigidbody = this.gameObject.GetComponent<Rigidbody>();
-        rigidbody.isKinematic = false;
-        rigidbody.velocity = velocity;
-        rigidbody.angularVelocity = angularVelocity;
-        Debug.Log("Beginning annullment cube- creating DisableSphere");
-        disableSphereInstance = Instantiate(disableSphere, Vector3.zero, Quaternion.identity);
-        disableSphereInstance.transform.localScale = disableSphereInstance.transform.localScale * radiusMultiplier;
-        disableSphereInstance.transform.parent = this.transform;
-
-        float radius = radiusMultiplier * gameObject.transform.localScale.magnitude;
-        Debug.Log("Getting colliders in vicinity");
-        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, radius);
-        Debug.Log("Looping through colliders");
-        foreach (Collider collider in colliders)
+        if (rigidbody != null)
         {
-            Debug.Log("Collider: " + collider + " " + collider.gameObject.name);
-            CubeType cube = collider.gameObject.GetComponent<CubeType>();
-            if(cube != null && cube.gameObject != gameObject)
+            rigidbody.isKinematic = false;
+            rigidbody.velocity = velocity;
+            rigidbody.angularVelocity = angularVelocity;
+            Debug.Log("Beginning annullment cube- creating DisableSphere");
+            GameObject disableSphere = GameObject.Find("DisableSphere");
+            disableSphereInstance = Instantiate(disableSphere, transform);
+            float radius = radiusMultiplier * gameObject.transform.localScale.magnitude;
+            disableSphereInstance.transform.localScale *= radiusMultiplier;
+
+
+            Debug.Log("Getting colliders in vicinity");
+            Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, radius);
+            Debug.Log("Looping through colliders");
+            foreach (Collider collider in colliders)
             {
-                cube.TurnOff();
+                Debug.Log("Collider: " + collider + " " + collider.gameObject.name);
+                CubeType cube = collider.gameObject.GetComponent<CubeType>();
+                if (cube != null && cube.gameObject != gameObject)
+                {
+                    cube.TurnOff();
+                }
             }
         }
+        base.BeginBehaviour(velocity, angularVelocity);
         
 
     }
 
-    public override void DisableBehaviour()
+    public override void DisableBehaviour(string disableType)
     {
         Debug.Log("Disabling behaviour generic box; Setting kinematic to true");
         this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -52,6 +58,8 @@ public class AnnulmentCube : CubeType
             }
         }
         GameObject.Destroy(disableSphereInstance);
+        base.DisableBehaviour(disableType);
+
     }
 
 

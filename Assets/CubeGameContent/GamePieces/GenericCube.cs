@@ -14,15 +14,20 @@ namespace CubeTypes
         {
             Debug.Log("Beginning behaviour generic box; Setting kinematic to false");
             Rigidbody rigidbody = this.gameObject.GetComponent<Rigidbody>();
-            rigidbody.isKinematic = false;
-            rigidbody.velocity = velocity;
-            rigidbody.angularVelocity = angularVelocity;
+            if (rigidbody != null)
+            {
+                rigidbody.isKinematic = false;
+                rigidbody.velocity = velocity;
+                rigidbody.angularVelocity = angularVelocity;
+            }
+            base.BeginBehaviour(velocity, angularVelocity);
         }
 
-        public override void DisableBehaviour()
+        public override void DisableBehaviour(String disableType)
         {
             Debug.Log("Disabling behaviour generic box; Setting kinematic to true");
             this.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            base.DisableBehaviour(disableType);
         }
 
       

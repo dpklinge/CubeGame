@@ -121,7 +121,7 @@ public class BoxCreationScript : MonoBehaviour
         
         Debug.Log("Type: " + type);
         instance.AddComponent(type.GetType());
-        instance.GetComponent<CubeType>().Initialize();
+        instance.GetComponent<CubeType>().Initialize(type);
         float distance = Vector3.Distance(rightHandPos.position, leftHandPos.position);
         instance.transform.localScale = new Vector3(distance, distance, distance);
         currentBox = instance;
@@ -151,7 +151,7 @@ public class BoxCreationScript : MonoBehaviour
         {
             currentBox = nearestBox;
             currentBox.transform.SetParent(hand.transform);
-            currentBox.GetComponent<CubeType>().DisableBehaviour();
+            currentBox.GetComponent<CubeType>().DisableBehaviour("grab");
         }
     }
 
