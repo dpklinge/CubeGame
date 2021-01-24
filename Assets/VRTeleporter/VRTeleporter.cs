@@ -44,6 +44,8 @@ public class VRTeleporter : MonoBehaviour
     private CubeType cubeTarget = null;
     private CubeType lastCubeTarget = null;
 
+    public Collider EndZone;
+
     private List<Vector3> vertexList = new List<Vector3>(); // vertex on arc
 
     private bool displayActive = false; // don't update path when it's false.
@@ -54,8 +56,12 @@ public class VRTeleporter : MonoBehaviour
     {
         if (groundDetected && canTeleport)
         {
-            
+            if (EndZone.ClosestPoint(groundPos) == groundPos)
+            {
+                EndZone.gameObject.GetComponent<TriggerNextLevel>().Load();
+            }
             bodyTransform.position = groundPos + lastNormal * 0.1f;
+            
             if (lastCubeTarget != null)
             {
                 lastCubeTarget.Detach(bodyTransform.gameObject);

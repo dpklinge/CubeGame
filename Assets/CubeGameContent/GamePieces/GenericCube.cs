@@ -12,10 +12,11 @@ namespace CubeTypes
 
         public override void BeginBehaviour(Vector3 velocity, Vector3 angularVelocity)
         {
-            Debug.Log("Beginning behaviour generic box; Setting kinematic to false");
+            Debug.Log("Beginning behaviour generic box");
             Rigidbody rigidbody = this.gameObject.GetComponent<Rigidbody>();
-            if (rigidbody != null)
+            if (rigidbody != null)  
             {
+                Debug.Log("Setting kinematic to false");
                 rigidbody.isKinematic = false;
                 rigidbody.velocity = velocity;
                 rigidbody.angularVelocity = angularVelocity;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,8 +11,8 @@ namespace CubeTypes
         public static bool levelReady = false;
         public Color CubeColor;
         public Color CubeSpeakingColor;
-        public float MinTimeBetweenAudio = 20;
-        public float MaxTimeBetweenAudio = 40;
+        public float MinTimeBetweenAudio = 2;
+        public float MaxTimeBetweenAudio = 5;
         private SoundList list;
         private AudioSource source;
         public List<GameObject> attachedObjects = new List<GameObject>();
@@ -41,23 +42,28 @@ namespace CubeTypes
         }
         public virtual void Initialize(CubeType type)
         {
-
-            Debug.Log("Initializing with color " + type.GetLiveColor());
+            Debug.Log("Initializing "+this.name);
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+            }
+         
             CubeColor = type.GetLiveColor();
             list = type.list;
             source = Instantiate<AudioSource>(GameObject.Find("CubeAudioSource").GetComponent<AudioSource>());
-            source.transform.SetParent(this.transform);
-            Debug.Log("Finding: " + this.GetType().Name + "Audio");
+            source.transform.SetParent(transform);
+            //Debug.Log("Finding: " + this.GetType().Name + "Audio");
             try
             {
                 GameObject soundList = GameObject.Find(this.GetType().Name + "Audio");
               
                     list = soundList.GetComponent<SoundList>();
 
-                Debug.Log("Sounds post find " + list);
-                Debug.Log("Sounds size: " + list.Size());
-                Debug.Log("First sound: " + list[0]);
-                Debug.Log("Audio sources present at initialization: " + list.clips);
+                //Debug.Log("Sounds post find " + list);
+                //Debug.Log("Sounds size: " + list.Size());
+                //Debug.Log("First sound: " + list[0]);
+                //Debug.Log("Audio sources present at initialization: " + list.clips);
             }
             catch(NullReferenceException e)            {
                 Debug.LogWarning("Soundlist not found for " + this.GetType().Name);
@@ -72,7 +78,7 @@ namespace CubeTypes
            
             if (renderer != null)
             {
-                Debug.Log("replacing: " + renderer.material.GetColor("_EmissionColor"));
+              //  Debug.Log("replacing: " + renderer.material.GetColor("_EmissionColor"));
                 Material material = renderer.material;
                 renderer.material.SetColor("_EmissionColor", CubeColor);
                 Light light = type.gameObject.GetComponentInChildren<Light>();
@@ -86,22 +92,22 @@ namespace CubeTypes
             }
            
             nextPulseTime = UnityEngine.Random.Range(MinTimeBetweenAudio, MaxTimeBetweenAudio) ;
-            Debug.Log("Time to next sound: " + nextPulseTime);
+           // Debug.Log("Time to next sound: " + nextPulseTime);
         }
         public void Start()
         {
-            Initialize(this);
+
         }
 
         public virtual void ApplyCollision(GameObject obj)
         {
-            Debug.Log("Applying collision between " + this + " and " + obj);
+           // Debug.Log("Applying collision between " + this + " and " + obj);
             Rigidbody rb = obj.GetComponentInChildren<Rigidbody>();
             if (rb != null && !rb.isKinematic)
             {
                 if (!attachedObjects.Contains(obj))
                 {
-                    Debug.Log("Attaching " + obj.name + " to " + this.name);
+                 //   Debug.Log("Attaching " + obj.name + " to " + this.name);
                     attachedObjects.Add(obj.gameObject);
                     obj.transform.parent = this.gameObject.transform;
                 }
@@ -112,10 +118,10 @@ namespace CubeTypes
 
         public void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Object entered cube " + name + " trigger: " + other.name);
+          //  Debug.Log("Object entered cube " + name + " trigger: " + other.name);
             if (other.gameObject.layer == 9)
             {
-                Debug.Log("Colliding with standard collision ignoring surface - aborting contact");
+            //    Debug.Log("Colliding with standard collision ignoring surface - aborting contact");
                 return;
             }
 
@@ -191,7 +197,7 @@ namespace CubeTypes
                 timeToSoundPulse += Time.deltaTime;
                 if (currentlyPlayingSound != null && timePlayingSound >= currentlyPlayingSound.length)
                 {
-                    Debug.Log("Ending sound");
+                  //  Debug.Log("Ending sound");
                     source.Stop();
                     currentlyPlayingSound = null;
                 }
@@ -239,7 +245,7 @@ namespace CubeTypes
                 }
                 if (timeToSoundPulse >= nextPulseTime)
                 {
-                    Debug.Log(this.name+" triggering pulse");
+                   // Debug.Log(this.name+" triggering pulse");
                     TriggerSoundPulse();
                    
                     timeToSoundPulse = 0;
@@ -254,20 +260,28 @@ namespace CubeTypes
         private void TriggerSoundPulse()
         {
             currentlyPlayingSound = list[Random.Range(0, list.Size() - 1)];
-            Debug.Log("Picking sound from sounds: " + list);
-            Debug.Log("Sound picked: " + currentlyPlayingSound);
+           // Debug.Log("Picking sound from sounds: " + list);
+          //  Debug.Log("Sound picked: " + currentlyPlayingSound);
             source.PlayOneShot(currentlyPlayingSound);
             timePlayingSound = 0;
 
         }
         public void Awake()
         {
-            if (!levelReady)
+            if (!levelReady && active)
             {
                 Debug.Log(this.name + " awakening");
-                Initialize(GameObject.Find(this.GetType().Name).GetComponent<CubeType>());
+                Initialize(GameObject.Find(this.GetType().Name+ "Type").GetComponent<CubeType>());
                 BeginBehaviour(Vector3.zero, Vector3.zero);
+                Debug.Log("Is kinematic at the endof awakening?" + this.GetComponent<Rigidbody>().isKinematic);
+                StartCoroutine(Output());
             }
+        }
+        public IEnumerator Output()
+        {
+            
+            yield return new WaitForSeconds(3f); // waits 3 seconds
+            Debug.Log("Is kinematic at the end of delay?" + this.GetComponent<Rigidbody>().isKinematic);
         }
     }
 }
